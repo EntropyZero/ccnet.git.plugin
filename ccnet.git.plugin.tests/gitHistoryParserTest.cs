@@ -12,7 +12,7 @@ namespace ccnet.git.plugin.tests
         string emptyLogXml = string.Empty;
 
         string oneEntryLogXml = @"<Modification>
-            <ModifiedTime>2009-01-01T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2009-01-01T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment>Commit Message 1</Comment>
@@ -20,32 +20,32 @@ namespace ccnet.git.plugin.tests
 
         string multipleEntriesLogXml =
         @"<Modification>
-            <ModifiedTime>2000-01-01T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2000-01-01T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment>Commit Message 1</Comment>
         </Modification>
         <Modification>
-            <ModifiedTime>2001-01-01T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2001-01-01T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment>Commit Message 2</Comment>
         </Modification>
         <Modification>
-            <ModifiedTime>2009-01-01T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2009-01-01T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment>Commit Message 3</Comment>
         </Modification>
         <Modification>
-            <ModifiedTime>2009-01-02T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2009-01-02T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment>Commit Message 4</Comment>
         </Modification>";
 
         string oneEntryLogWithCDataCommentXml = @"<Modification>
-            <ModifiedTime>2009-01-01T10:00:00+10:00</ModifiedTime>
+            <ModifiedTime>2009-01-01T10:00:00-05:00</ModifiedTime>
             <UserName>Fred</UserName>
             <EmailAddress>abc@abc.com</EmailAddress>
             <Comment><![CDATA[Commit Message 1]]></Comment>
