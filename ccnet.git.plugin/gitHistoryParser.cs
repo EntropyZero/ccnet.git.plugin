@@ -24,14 +24,23 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// <returns></returns>
         public Modification[] Parse(TextReader history, DateTime from, DateTime to)
         {
+            return Parse(history, from, to, 9999999);
+        }
+
+        public Modification[] Parse(TextReader history, DateTime from, DateTime to, int currentCommitCount)
+        {
             List<Modification> result = new List<Modification>();
 
             if (history.Peek() < 1)
                 return result.ToArray();
 
-            foreach (Match mod in modificationList.Matches(history.ReadToEnd()))
+            MatchCollection collection = modificationList.Matches(history.ReadToEnd());
+            int changeNumber = currentCommitCount - collection.Count;
+
+            foreach (Match mod in collection)
             {
-                result.AddRange(GetCommitModifications(mod, from, to));
+                result.AddRange(GetCommitModifications(mod, from, to, changeNumber));
+                changeNumber++;
             }
 
             return result.ToArray();
@@ -44,7 +53,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private static IList<Modification> GetCommitModifications(Match commitMatch, DateTime from, DateTime to)
+        private static IList<Modification> GetCommitModifications(Match commitMatch, DateTime from, DateTime to, int changeNumber)
         {
             IList<Modification> result = new List<Modification>();
 
@@ -66,7 +75,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             foreach (Match change in changeList.Matches(changes))
             {
                 Modification mod = new Modification();
-                //mod.ChangeNumber = hash; //SB -- Need to do fun steven hack here.
+                mod.ChangeNumber = changeNumber;
                 mod.Comment = comment;
                 mod.EmailAddress = emailAddress;
                 mod.ModifiedTime = modifiedTime;

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Exortech.NetReflector;
 using ThoughtWorks.CruiseControl.Core.Util;
 
@@ -63,7 +64,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         public override Modification[] GetModifications(IIntegrationResult from, IIntegrationResult to)
         {
             // fetch lates changes from the remote repository
-            RepositoryAction result = CreateUpateLocalRepository(to);
+            RepositoryAction result = CreateUpdateLocalRepository(to);
 
             // check whenever the remote hash has changed after a "git fetch" command
             string originHeadHash = GitLogOriginHash(Branch, to);
@@ -73,8 +74,14 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
                                         "' matches, no modifications found. Current hash is '", originHeadHash, "'"));
                 return new Modification[0];
             }
-
             // parse git log history
+            string count = GitRevisionCount(Branch, to);
+
+            ProcessResult history = GitLogHistory(Branch, from, to);
+            if(historyParser is GitHistoryParser)
+            {
+                return ((GitHistoryParser) historyParser).Parse(new StringReader(history.StandardOutput), from.StartTime, to.StartTime, Int32.Parse(count));
+            }
             return ParseModifications(GitLogHistory(Branch, from, to), from.StartTime, to.StartTime);
         }
 
@@ -143,7 +150,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// </summary>
         /// <param name="result">IIntegrationResult of the current build.</param>
         /// <returns>The action that was done, repository created or updated.</returns>
-        private RepositoryAction CreateUpateLocalRepository(IIntegrationResult result)
+        private RepositoryAction CreateUpdateLocalRepository(IIntegrationResult result)
         {
             string workingDirectory = BaseWorkingDirectory(result);
             string gitRepositoryDirectory = Path.Combine(workingDirectory, ".git");
@@ -169,9 +176,9 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
                 Log.Debug(string.Concat("[Git] Working directory '", workingDirectory,
                                         "' already exists, but it is not a git repository. Try deleting it and starting again."));
 
-                // delete working directory and call CreateUpateLocalRepository recursive
+                // delete working directory and call CreateUpdateLocalRepository recursive
                 _fileDirectoryDeleter.DeleteIncludingReadOnlyObjects(workingDirectory);
-                return CreateUpateLocalRepository(result);
+                return CreateUpdateLocalRepository(result);
             }
 
             // we are in a local git repository, fetch the latest remote changes
@@ -209,6 +216,14 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             return processInfo;
         }
 
+        private ProcessInfo NewProcessInfo(string executable, string args, IIntegrationResult result)
+        {
+            Log.Info(string.Concat("[Git] Calling ", executable, args));
+            ProcessInfo processInfo = new ProcessInfo(executable, args, BaseWorkingDirectory(result));
+            //processInfo.StreamEncoding = Encoding.UTF8;
+            return processInfo;
+        }
+
         #region "git commands"
 
         /// <summary>
@@ -225,6 +240,24 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             buffer.AddArgument("-1");
             buffer.AddArgument("--pretty=format:\"%H\"");
             return Execute(NewProcessInfo(buffer.ToString(), result)).StandardOutput.Trim();
+        }
+        
+        /// <summary>
+        /// Get the current count of revisions on the remote repository
+        /// </summary>
+        /// <param name="branchName">Name of the branch.</param>
+        /// <param name="result">IIntegrationResult of the current build.</param>
+        private string GitRevisionCount(string branchName, IIntegrationResult result)
+        {
+            ProcessArgumentBuilder buffer = new ProcessArgumentBuilder();
+            buffer.AddArgument("git");
+            buffer.AddArgument("log");
+            buffer.AddArgument(string.Concat("origin/", branchName));
+            buffer.AddArgument("--pretty=format:''");
+            buffer.AddArgument("|");
+            buffer.AddArgument("wc");
+            buffer.AddArgument("-l");
+            return Execute(NewProcessInfo("cmd.exe", buffer.ToString(), result)).StandardOutput.Trim();
         }
 
         /// <summary>
@@ -453,7 +486,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 
         /// <summary>
         /// Private enum that is used to determine the action done
-        /// by the CreateUpateLocalRepository() method.
+        /// by the CreateUpdateLocalRepository() method.
         /// </summary>
         private enum RepositoryAction
         {
