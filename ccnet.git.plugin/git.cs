@@ -75,12 +75,12 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
                 return new Modification[0];
             }
             // parse git log history
-            string count = GitRevisionCount(Branch, to);
+            int count = GitRevisionCount(Branch, to);
 
             ProcessResult history = GitLogHistory(Branch, from, to);
             if(historyParser is GitHistoryParser)
             {
-                return ((GitHistoryParser) historyParser).Parse(new StringReader(history.StandardOutput), from.StartTime, to.StartTime, Int32.Parse(count));
+                return ((GitHistoryParser) historyParser).Parse(new StringReader(history.StandardOutput), from.StartTime, to.StartTime, count);
             }
             return ParseModifications(GitLogHistory(Branch, from, to), from.StartTime, to.StartTime);
         }
@@ -247,17 +247,17 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// </summary>
         /// <param name="branchName">Name of the branch.</param>
         /// <param name="result">IIntegrationResult of the current build.</param>
-        private string GitRevisionCount(string branchName, IIntegrationResult result)
+        private int GitRevisionCount(string branchName, IIntegrationResult result)
         {
             ProcessArgumentBuilder buffer = new ProcessArgumentBuilder();
-            buffer.AddArgument("git");
             buffer.AddArgument("log");
             buffer.AddArgument(string.Concat("origin/", branchName));
-            buffer.AddArgument("--pretty=format:''");
-            buffer.AddArgument("|");
-            buffer.AddArgument("wc");
-            buffer.AddArgument("-l");
-            return Execute(NewProcessInfo("cmd.exe", buffer.ToString(), result)).StandardOutput.Trim();
+            buffer.AddArgument("--pretty=format:\"\"");
+            string output = Execute(NewProcessInfo(buffer.ToString(), result)).StandardOutput;
+            int outputLength = output.Length;
+            int revisions = (outputLength/2) + 1;
+            Log.Debug(string.Format("GitRevisionCount Revisions: {0}", revisions));
+            return revisions;
         }
 
         /// <summary>

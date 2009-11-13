@@ -24,7 +24,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// <returns></returns>
         public Modification[] Parse(TextReader history, DateTime from, DateTime to)
         {
-            return Parse(history, from, to, 9999999);
+            throw new NotImplementedException("Ent0 has overridden this functionality.  Please see them....");
         }
 
         public Modification[] Parse(TextReader history, DateTime from, DateTime to, int currentCommitCount)
@@ -39,8 +39,8 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 
             foreach (Match mod in collection)
             {
-                result.AddRange(GetCommitModifications(mod, from, to, changeNumber));
                 changeNumber++;
+                result.AddRange(GetCommitModifications(mod, from, to, changeNumber));
             }
 
             return result.ToArray();

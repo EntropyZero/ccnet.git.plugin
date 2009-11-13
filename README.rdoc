@@ -1,6 +1,7 @@
 =ccnet.git.plugin
 
 Source Control Plugin for CruiseControl.NET that talks to git.
+Kinda Out of Date Documentation.
 
 ==configuration
 
