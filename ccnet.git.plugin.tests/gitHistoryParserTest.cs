@@ -51,7 +51,7 @@ namespace ccnet.git.plugin.tests
             <Comment><![CDATA[Commit Message 1]]></Comment>
         </Modification>";
 
-        private readonly gitHistoryParser git = new gitHistoryParser();
+        private readonly GitHistoryParser git = new GitHistoryParser();
 
         [Test]
         public void ParsingEmptyLogProducesNoModifications()

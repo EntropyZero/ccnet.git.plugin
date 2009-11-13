@@ -58,7 +58,7 @@ namespace ccnet.git.plugin.tests
             sf.DirectoryExists("asdf");
         }
 
-        private ThoughtWorks.CruiseControl.Core.Sourcecontrol.git git;
+        private ThoughtWorks.CruiseControl.Core.Sourcecontrol.Git git;
         private IMock mockHistoryParser;
         private DateTime from;
         private DateTime to;
@@ -103,7 +103,7 @@ namespace ccnet.git.plugin.tests
 	<autoGetSource>true</autoGetSource>
 </git>";
 
-            git = (ThoughtWorks.CruiseControl.Core.Sourcecontrol.git)NetReflector.Read(xml);
+            git = (ThoughtWorks.CruiseControl.Core.Sourcecontrol.Git)NetReflector.Read(xml);
             Assert.AreEqual(@"git", git.Executable);
             Assert.AreEqual(@"c:\git\ccnet\mygitrepo", git.Repository);
             Assert.AreEqual(@"master", git.Branch);
@@ -120,7 +120,7 @@ namespace ccnet.git.plugin.tests
 <git>
     <repository>c:\git\ccnet\mygitrepo</repository>
 </git>";
-            git = (ThoughtWorks.CruiseControl.Core.Sourcecontrol.git)NetReflector.Read(xml);
+            git = (ThoughtWorks.CruiseControl.Core.Sourcecontrol.Git)NetReflector.Read(xml);
         }
 
         [Test]
@@ -262,7 +262,7 @@ namespace ccnet.git.plugin.tests
 
         private void setupGit(IFileSystem filesystem) 
         {
-            git = new ThoughtWorks.CruiseControl.Core.Sourcecontrol.git((IHistoryParser)mockHistoryParser.MockInstance, (ProcessExecutor)mockProcessExecutor.MockInstance, filesystem);
+            git = new ThoughtWorks.CruiseControl.Core.Sourcecontrol.Git((IHistoryParser)mockHistoryParser.MockInstance, (ProcessExecutor)mockProcessExecutor.MockInstance, filesystem);
             git.Repository = @"xyz.git";
             git.WorkingDirectory = DefaultWorkingDirectory;
         }

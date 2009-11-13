@@ -57,8 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="git.cs" />
-    <Compile Include="gitHistoryParser.cs" />
+    <Compile Include="Git.cs" />
+    <Compile Include="GitHistoryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
