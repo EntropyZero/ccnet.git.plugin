@@ -68,7 +68,8 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 
             // check whenever the remote hash has changed after a "git fetch" command
             string originHeadHash = GitLogOriginHash(Branch, to);
-            if (result == RepositoryAction.Updated && (originHeadHash == GitLogLocalHash(to)))
+        	string localHash = GitLogLocalHash(to);
+        	if (result == RepositoryAction.Updated && (originHeadHash == localHash))
             {
                 Log.Debug(string.Concat("[Git] Local and origin hash of branch '", Branch,
                                         "' matches, no modifications found. Current hash is '", originHeadHash, "'"));
@@ -77,12 +78,12 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             // parse git log history
             int count = GitRevisionCount(Branch, to);
 
-            ProcessResult history = GitLogHistory(Branch, from, to);
+			ProcessResult history = GitLogHistory(Branch, to, localHash, originHeadHash);
             if(historyParser is GitHistoryParser)
             {
-                return ((GitHistoryParser) historyParser).Parse(new StringReader(history.StandardOutput), from.StartTime, to.StartTime, count);
+                return ((GitHistoryParser) historyParser).Parse(new StringReader(history.StandardOutput), count);
             }
-            return ParseModifications(GitLogHistory(Branch, from, to), from.StartTime, to.StartTime);
+			return ParseModifications(history, from.StartTime, to.StartTime);
         }
 
         public override void GetSource(IIntegrationResult result)
@@ -292,15 +293,13 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// <param name="from">IIntegrationResult of the last build.</param>
         /// <param name="to">IIntegrationResult of the current build.</param>
         /// <returns>Result of the "git log" command.</returns>
-        private ProcessResult GitLogHistory(string branchName, IIntegrationResult from, IIntegrationResult to)
+        private ProcessResult GitLogHistory(string branchName, IIntegrationResult to, string localHash, string originHash)
         {
             ProcessArgumentBuilder buffer = new ProcessArgumentBuilder();
             buffer.AddArgument("log");
-            buffer.AddArgument(string.Concat("origin/", branchName));
-            buffer.AddArgument("--date-order");
+			buffer.AddArgument(string.Concat(localHash, "..", originHash));
+			buffer.AddArgument("--date-order");
             buffer.AddArgument("--name-status");
-            buffer.AddArgument(string.Concat("--after=", from.StartTime.ToUniversalTime().ToString("R")));
-            buffer.AddArgument(string.Concat("--before=", to.StartTime.ToUniversalTime().ToString("R")));
             buffer.AddArgument(string.Concat("--pretty=format:", '"', historyFormat, '"'));
 
             return Execute(NewProcessInfo(buffer.ToString(), to));

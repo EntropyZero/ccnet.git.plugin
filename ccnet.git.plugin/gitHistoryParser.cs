@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using ThoughtWorks.CruiseControl.Core.Util;
 
 namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 {
@@ -27,7 +26,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             throw new NotImplementedException("Ent0 has overridden this functionality.  Please see them....");
         }
 
-        public Modification[] Parse(TextReader history, DateTime from, DateTime to, int currentCommitCount)
+        public Modification[] Parse(TextReader history, int currentCommitCount)
         {
             List<Modification> result = new List<Modification>();
 
@@ -40,7 +39,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             foreach (Match mod in collection)
             {
                 changeNumber++;
-                result.AddRange(GetCommitModifications(mod, from, to, changeNumber));
+                result.AddRange(GetCommitModifications(mod, changeNumber));
             }
 
             return result.ToArray();
@@ -53,7 +52,7 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private static IList<Modification> GetCommitModifications(Match commitMatch, DateTime from, DateTime to, int changeNumber)
+        private static IList<Modification> GetCommitModifications(Match commitMatch, int changeNumber)
         {
             IList<Modification> result = new List<Modification>();
 
@@ -63,14 +62,6 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
             string emailAddress = commitMatch.Groups["Mail"].Value;
             string comment = commitMatch.Groups["Message"].Value.TrimEnd('\r', '\n');
             string changes = commitMatch.Groups["Changes"].Value;
-
-            if (modifiedTime < from || modifiedTime > to)
-            {
-                Log.Debug(string.Concat("[Git] Ignore commit '", hash, "' from '", modifiedTime.ToUniversalTime(),
-                                        "' because it is older then '",
-                                        from.ToUniversalTime(), "' or newer then '", to.ToUniversalTime(), "'."));
-                return result;
-            }
 
             foreach (Match change in changeList.Matches(changes))
             {
