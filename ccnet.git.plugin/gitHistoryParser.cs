@@ -9,8 +9,13 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
     {
         private static readonly Regex modificationList =
             new Regex(
-                "Commit:(?<Hash>[a-z0-9]{40})(?:\n|\r\n)Time:(?<Time>.+?)(?:\n|\r\n)Author:(?<Author>.+?)(?:\n|\r\n)E-Mail:(?<Mail>.+?)(?:\n|\r\n)Message:(?<Message>.*?)(?:\n|\r\n)Changes:(?:\n|\r\n)(?<Changes>.*?)(?:(?:\n|\r\n){2}|(?:\n|\r\n)$)",
-                RegexOptions.Compiled | RegexOptions.Singleline);
+@"Commit:(?<Hash>[a-z0-9]{40})(?:\n|\r\n)
+Time:(?<Time>.+?)(?:\r?\n)
+Author:(?<Author>.+?)(?:\r?\n)
+E-Mail:(?<Mail>.+?)(?:\r?\n)
+Message:(?<Message>.*?)(?:\r?\n)
+Changes:(?:\r?\n)
+(?<Changes>.*?)(?=Commit|$)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
 
         private static readonly Regex changeList = new Regex("(?<Type>[A-Z]{1})\t(?<FileName>.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
