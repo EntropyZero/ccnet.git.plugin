@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using ThoughtWorks.CruiseControl.Core;
 using ThoughtWorks.CruiseControl.Core.Sourcecontrol;
@@ -10,13 +7,13 @@ using ThoughtWorks.CruiseControl.Core.Sourcecontrol;
 namespace test
 {
 	[TestFixture]
-	public class Class1
+	public class Ent0GitHistoryParserBugTests
 	{
 		[Test]
-		public void gof()
+		public void SouldShowMergeCommits()
 		{
-			GitHistoryParser parser = new GitHistoryParser();
-			string ass =
+			Ent0GitHistoryParser parser = new Ent0GitHistoryParser();
+			string commitHistory =
 				@"
 Commit:92b92bd9ff2e760a4b03d21a04ac0e7ac3059d04
 Time:2009-12-11 14:58:37 -0500
@@ -162,8 +159,9 @@ A	TrustOnline.Business/Database/deltas/1.0/09000.sql
 M	TrustOnline.Business/TrustOnline.Business.csproj
 M	UnitTests.TrustOnline.Business/TrustSetup/TrustSetupTests_ACS.cs
 ";
-			Modification[] modifications = parser.Parse(new StringReader(ass), 12212);
-			Assert.AreEqual(2, modifications.Length);
+			Modification[] modifications = parser.Parse(new StringReader(commitHistory), 12212);
+			Assert.AreEqual(15, modifications.Length);
+
 		}
 	}
 }

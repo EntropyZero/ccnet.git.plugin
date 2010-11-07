@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetReflector, Version=1.0.0.120, Culture=neutral, PublicKeyToken=2f4dd8b32acbcd8e">
+    <Reference Include="NetReflector, Version=1.1.2009.1214, Culture=neutral, PublicKeyToken=2f4dd8b32acbcd8e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\NetReflector.dll</HintPath>
     </Reference>
@@ -47,18 +47,18 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.CruiseControl.Core, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.CruiseControl.Core, Version=1.5.7256.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ThoughtWorks.CruiseControl.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ThoughtWorks.CruiseControl.Remote, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.CruiseControl.Remote, Version=1.5.7256.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ThoughtWorks.CruiseControl.Remote.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Git.cs" />
-    <Compile Include="GitHistoryParser.cs" />
+    <Compile Include="Ent0Git.cs" />
+    <Compile Include="Ent0GitHistoryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

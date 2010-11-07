@@ -31,45 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Commons, Version=0.4.3.8587, Culture=neutral, PublicKeyToken=44382d1b57473eda">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Commons.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.SpeechLib, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Interop.SpeechLib.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NetReflector, Version=1.0.0.120, Culture=neutral, PublicKeyToken=2f4dd8b32acbcd8e">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\NetReflector.dll</HintPath>
-    </Reference>
-    <Reference Include="nmock, Version=1.1.2299.39675, Culture=neutral, PublicKeyToken=78062a8bfcd41ecf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\nmock.dll</HintPath>
-    </Reference>
-    <Reference Include="NPlot, Version=0.9.9.2, Culture=neutral, PublicKeyToken=4eda430eb4395eb1">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\NPlot.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core, Version=2.2.9.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\nunit.core.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.4.3.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ARPC\TrustOnline\TrustOnline\TrustOnline.Common\Assemblies\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="NVelocity, Version=0.5.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\NVelocity.dll</HintPath>
-    </Reference>
-    <Reference Include="Objection, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Objection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -83,29 +47,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.CruiseControl.CCTrayLib, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ThoughtWorks.CruiseControl.CCTrayLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ThoughtWorks.CruiseControl.Core, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.CruiseControl.Core, Version=1.5.7256.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ThoughtWorks.CruiseControl.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ThoughtWorks.CruiseControl.Remote, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ThoughtWorks.CruiseControl.Remote.dll</HintPath>
-    </Reference>
-    <Reference Include="ThoughtWorks.CruiseControl.UnitTests, Version=1.0.3348.26789, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ThoughtWorks.CruiseControl.UnitTests.dll</HintPath>
-    </Reference>
-    <Reference Include="ThoughtWorks.CruiseControl.WebDashboard, Version=1.4.2.14, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ThoughtWorks.CruiseControl.WebDashboard.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Ent0GitHistoryParserBugTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
