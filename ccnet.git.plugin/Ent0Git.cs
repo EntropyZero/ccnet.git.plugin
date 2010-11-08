@@ -247,7 +247,8 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 			}
 			// parse git log history
 			int count = GitRevisionCount(Branch, to);
-			ProcessResult history = GitLogHistory(Branch, to, localHash, originHeadHash);
+			ProcessResult history;
+			history = result == RepositoryAction.Created ? GitLastLogHistory(Branch, to) : GitLogHistory(Branch, to, localHash, originHeadHash);
 			if (historyParser is Ent0GitHistoryParser)
 			{
 				return ((Ent0GitHistoryParser)historyParser).Parse(new StringReader(history.StandardOutput), count);
@@ -460,6 +461,19 @@ namespace ThoughtWorks.CruiseControl.Core.Sourcecontrol
 			ProcessArgumentBuilder buffer = new ProcessArgumentBuilder();
 			buffer.AddArgument("log");
 			buffer.AddArgument(string.Concat(localHash, "..", originHash));
+			buffer.AddArgument("--date-order");
+			buffer.AddArgument("--name-status");
+			buffer.AddArgument(string.Concat("--pretty=format:", '"', historyFormat, '"'));
+
+			return Execute(NewProcessInfo(buffer.ToString(), to));
+		}
+	
+		private ProcessResult GitLastLogHistory(string branchName, IIntegrationResult to)
+		{
+			ProcessArgumentBuilder buffer = new ProcessArgumentBuilder();
+			buffer.AddArgument("log");
+			buffer.AddArgument(string.Concat("origin/", branchName));
+			buffer.AddArgument("-1");
 			buffer.AddArgument("--date-order");
 			buffer.AddArgument("--name-status");
 			buffer.AddArgument(string.Concat("--pretty=format:", '"', historyFormat, '"'));
